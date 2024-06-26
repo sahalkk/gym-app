@@ -1,0 +1,44 @@
+<!-- src/app/trainers/trainers.component.html -->
+<div class="search-bar">
+  <input type="text" [(ngModel)]="searchTerm" placeholder="Search by name" />
+  <button (click)="loadTrainers()">Search</button>
+  <!-- <div *ngIf="results">
+      <ul>
+        <li *ngFor="let trainer of results.data">{{ trainer.name }}</li>
+      </ul>
+      <div *ngIf="results.total === 0">No trainers found.</div>
+    </div> -->
+</div>
+<div class="table-container">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="row_id">
+      <th mat-header-cell *matHeaderCellDef>Row ID</th>
+      <td mat-cell *matCellDef="let trainer">{{ trainer.row_id }}</td>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let trainer">{{ trainer.name }}</td>
+    </ng-container>
+    <ng-container matColumnDef="gender">
+      <th mat-header-cell *matHeaderCellDef>Gender</th>
+      <td mat-cell *matCellDef="let trainer">{{ trainer.gender }}</td>
+    </ng-container>
+    <ng-container matColumnDef="height">
+      <th mat-header-cell *matHeaderCellDef>Height</th>
+      <td mat-cell *matCellDef="let trainer">{{ trainer.height }}</td>
+    </ng-container>
+    <ng-container matColumnDef="weight">
+      <th mat-header-cell *matHeaderCellDef>Weight</th>
+      <td mat-cell *matCellDef="let trainer">{{ trainer.weight }}</td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+  <mat-paginator
+    [length]="totalItems"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    (page)="onPageChange($event)"
+  >
+  </mat-paginator>
+</div>
