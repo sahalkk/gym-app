@@ -1,0 +1,22 @@
+mat-toolbar {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .spacer {
+    flex: 1 1 auto;
+  }
+  
+  mat-toolbar a {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  mat-toolbar a:hover {
+    text-decoration: underline;
+  }
+
+  mat-toolbar a.active-link {
+    background-color: rgba(255, 255, 255, 0.2); /* Adjust the color as needed */
+    border-radius: 10px; /* Adjust the radius as needed */
+  }

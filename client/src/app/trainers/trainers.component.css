@@ -1,4 +1,14 @@
-.search-bar{
-    display: flex;
-    justify-content: center;
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Adjust spacing between input and button */
+  margin: 16px 0; /* Add some margin around the search bar */
+}
+
+mat-form-field {
+  flex: 1; /* Make the input field take up available space */
+}
+
+button {
+  white-space: nowrap; /* Ensure button text doesn't wrap */
 }

@@ -5,6 +5,10 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { NgFor } from '@angular/common';
 import { FormsModule, NgModel } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+
 
 @Component({
   selector: 'app-trainers',
@@ -12,7 +16,10 @@ import { FormsModule, NgModel } from '@angular/forms';
   imports: [NgFor, 
     MatTableModule,
     MatPaginatorModule,
-    FormsModule
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule
   ],
   templateUrl: './trainers.component.html',
   styleUrl: './trainers.component.css',
@@ -34,24 +41,17 @@ export class TrainersComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadTrainers();
-    // this.getTrainersService.getTrainers().subscribe(
-    //   (response) => {
-    //     this.trainers = response
-    //   },
-    //   (error) => {
-    //     console.error('error fetching trainers', error)
-    //   }
-    // )
-    // this.getTrainersService.getTrainers().subscribe({
-    //   next: (response) => {this.trainers = response},
-    //   error: (error) => {console.error(error);},
-    // })
+  }
+
+  onSearch() : void {
+    this.pageIndex = 0;
+    this.loadTrainers();
   }
 
 
   loadTrainers(): void {
     
-    this.getTrainersService.getTrainers(this.searchTerm, this.pageIndex +1, this.pageSize).subscribe(response => {
+    this.getTrainersService.getTrainers(this.searchTerm, this.pageIndex + 1, this.pageSize).subscribe(response => {
       this.dataSource.data = response.data;
       this.totalItems = response.total;
     });
