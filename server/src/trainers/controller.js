@@ -6,13 +6,16 @@ const getTrainers = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const size = parseInt(req.query.size) || 10;
     const offset = (page - 1) * size;
-    const search = req.query.search || '';
+    const search = req.query.search || "";
 
     const result = await pool.query(
       "SELECT * FROM trainers WHERE name ILIKE $1 LIMIT $2 OFFSET $3",
-      [`%${search}%`,size, offset]
+      [`%${search}%`, size, offset]
     );
-    const countResult = await pool.query("SELECT COUNT(*) FROM trainers WHERE name ILIKE $1", [`%${search}%`]);
+    const countResult = await pool.query(
+      "SELECT COUNT(*) FROM trainers WHERE name ILIKE $1",
+      [`%${search}%`]
+    );
     const total = parseInt(countResult.rows[0].count);
 
     res.json({
@@ -39,20 +42,6 @@ const addTrainer = (req, res) => {
     }
   );
 };
-
-// const removeTrainer = (req, res) => {
-//   const id = parseInt(req.params.id);
-//   pool.query(queries.removeTrainer, [id], (error, results) => {
-//     const noTrainerFound = !results.rows.length;
-//     if (noTrainerFound) {
-//       res.send("Not found in database");
-//     }
-//     pool.query(queries.removeTrainer, [id], (error, results) => {
-//       if (error) throw error;
-//       res.status(200).send("Student removed Successfully");
-//     });
-//   });
-// };
 
 const removeTrainer = (req, res) => {
   const id = parseInt(req.params.id);
