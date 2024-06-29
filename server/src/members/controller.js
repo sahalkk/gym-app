@@ -11,6 +11,22 @@ const getMembers = (req, res) => {
   });
 };
 
+const addMember = (req, res) => {
+  const { row_id, name, age, gender, height, weight, phone_no, email } =
+    req.body;
+  pool.query(
+    queries.addMember,
+    [row_id, name, age, gender, height, weight, phone_no, email],
+    (error, results) => {
+      if (error) {
+        return res.status(500).json({ error: error.message });
+      }
+      res.status(201).json({ message: "Member added successfully!" });
+    }
+  );
+};
+
 module.exports = {
   getMembers,
+  addMember,
 };

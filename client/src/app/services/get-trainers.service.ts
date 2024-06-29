@@ -14,7 +14,7 @@ export class GetTrainersService {
     let params = new HttpParams();
     params = params.append('page', page.toString());
     params = params.append('size', size.toString());
-    params = params.append('search', search)
+    params = search.length ? params.append('search', search) : params;
 
     return this.http.get<PaginatedTrainers>(this.apiUrl, { params });
   }

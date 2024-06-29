@@ -1,1 +1,65 @@
-<p>members works!</p>
+<div class="overflow-x-auto">
+  <table class="min-w-full bg-white">
+    <thead class="bg-gray-800 text-white">
+      <tr>
+        <th class="w-1/12 py-2">Row ID</th>
+        <th class="w-4/12 py-2">Name</th>
+        <th class="w-1/12 py-2">Age</th>
+        <th class="w-1/12 py-2">Gender</th>
+        <th class="w-1/12 py-2">Height</th>
+        <th class="w-1/12 py-2">Weight</th>
+        <th class="w-3/12 py-2">Phone No</th>
+        <th class="w-3/12 py-2">Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let member of pagedMembers"
+        class="bg-gray-100 even:bg-gray-200"
+      >
+        <td class="border px-2 py-1">{{ member.row_id }}</td>
+        <td class="border px-2 py-1">{{ member.name }}</td>
+        <td class="border px-2 py-1">{{ member.age }}</td>
+        <td class="border px-2 py-1">{{ member.gender }}</td>
+        <td class="border px-2 py-1">{{ member.height }}</td>
+        <td class="border px-2 py-1">{{ member.weight }}</td>
+        <td class="border px-2 py-1">{{ member.phone_no }}</td>
+        <td class="border px-2 py-1">{{ member.email }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Pagination controls -->
+
+<div class="mt-4 flex justify-center items-center">
+  <button
+    (click)="goToPage(currentpage - 1)"
+    [disabled]="currentpage === 1"
+    class="px-4 py-2 mx-1 bg-gray-300 rounded"
+  >
+    Previous
+  </button>
+
+  <span class="px-4">Showing page {{ currentpage }} of {{ totalPages }}</span>
+
+  <select
+    (change)="onPageSelectChange($event)"
+    class="mx-1 bg-gray-300 rounded"
+  >
+    <option
+      *ngFor="let page of [].constructor(totalPages); let i = index"
+      [value]="i + 1"
+    >
+      {{ i + 1 }}
+    </option>
+  </select>
+
+  <button
+    (click)="goToPage(currentpage + 1)"
+    [disabled]="currentpage === totalPages"
+    class="px-4 py-2 mx-1 bg-gray-300 rounded"
+  >
+    Next
+  </button>
+</div>

@@ -8,14 +8,37 @@ const getTrainers = async (req, res) => {
     const offset = (page - 1) * size;
     const search = req.query.search || "";
 
-    const result = await pool.query(
-      "SELECT * FROM trainers WHERE name ILIKE $1 LIMIT $2 OFFSET $3",
-      [`%${search}%`, size, offset]
-    );
-    const countResult = await pool.query(
-      "SELECT COUNT(*) FROM trainers WHERE name ILIKE $1",
-      [`%${search}%`]
-    );
+    let query = "SELECT * FROM trainers";
+    let params = [];
+    let paramIndex = 1;
+
+    if (search.length) {
+      query += ` WHERE name ILIKE $${paramIndex}`;
+      params.push(`%${search}%`);
+      paramIndex++;
+    }
+
+    query += ` LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`;
+    params.push(size, offset);
+
+    console.log({ query });
+    console.log({ params });
+
+    const result = await pool.query(query, params);
+    console.log(result);
+
+    let countQuery = " SELECT COUNT(*) FROM trainers ";
+    let countParams = [];
+    if (search.length) {
+      countQuery += "WHERE name ILIKE $1";
+      countParams.push(`%${search}%`);
+    }
+    console.log({ countQuery });
+    console.log({ countParams });
+
+    const countResult = await pool.query(countQuery, countParams);
+    console.log("Count Result:", countResult);
+
     const total = parseInt(countResult.rows[0].count);
 
     res.json({
@@ -25,7 +48,7 @@ const getTrainers = async (req, res) => {
       size,
     });
   } catch (err) {
-    console.error(err);
+    console.error.message(err);
     res.status(500).send("Server error");
   }
 };
